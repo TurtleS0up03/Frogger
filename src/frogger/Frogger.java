@@ -14,15 +14,16 @@ public class Frogger
 	public Frogger() {
 		// TODO Auto-generated constructor stub
 	}
-	
+	public static FroggerView view = new FroggerView();
+	public FroggerModel model = new FroggerModel(view);
+	public FroggerController controller = new FroggerController(model.panel);
 	
 
 	public static void main(String[] args) {
 		
-		FroggerView view = new FroggerView();
+		
 		view.Boot(); 
-		FroggerModel model = new FroggerModel(view);
-		FroggerController controller = new FroggerController(model.panel);
+		
 		
 	}
 

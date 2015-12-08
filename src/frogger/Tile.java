@@ -48,7 +48,9 @@ public class Tile {
 		this.texture = QuickLoad(type);
 	}// EoConstruct
 	
-
+	public void Draw(){
+		DrawQuadTex(texture, x, y, width, height);
+	}
 
 	/**
 	 * Generate the getters and setters for other classes for Tile parameters

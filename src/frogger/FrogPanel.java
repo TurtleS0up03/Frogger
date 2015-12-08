@@ -88,9 +88,10 @@ public class FrogPanel extends JPanel implements Runnable, ImagesPlayerWatcher {
 	private static final String IMS_INFO = "imsInfo.txt";
 	private int numHits = 0; // the number of times 'frog' has been hit
 	
-	
+	public FroggerView view;
 
 	public FrogPanel(FroggerView view) {
+			this.view = view;
 			
 			BeginSession();
 

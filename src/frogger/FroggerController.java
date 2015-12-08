@@ -111,7 +111,7 @@ public class FroggerController {
 		while (!Display.isCloseRequested()) {// While were not hitting the x
 			// button
 			Clock.update();
-			//map.Draw();// Draw the grid
+			// Draw the grid
 			wave1.Update();// Update the waves
 			wave2.Update();// Update the waves
 			wave3.Update();// Update the waves
@@ -147,7 +147,7 @@ public class FroggerController {
 	public static class Action1 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("start button was pusshed :"+ e);
-			FroggerView.Game(panel);
+			panel.run();
 		}
 	}// EoC
 
