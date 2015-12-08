@@ -57,9 +57,7 @@ public class FrogPanel extends JPanel implements Runnable, ImagesPlayerWatcher {
 
 	private long period; // period between drawing in _nanosecs_
 
-	private Frogger frogTop;
-	// private ClipsLoader clipsLoader;
-
+	
 	private FrogSprite frog; // the sprites
 	private CarSprite car;
 
@@ -247,7 +245,7 @@ public class FrogPanel extends JPanel implements Runnable, ImagesPlayerWatcher {
 		startGame(); // start the thread
 	}
 
-	private void startGame()
+	void startGame()
 	// initialise and start the thread
 	{
 		if (animator == null || !running) {

@@ -37,6 +37,7 @@ public class FroggerView extends JFrame{
 	}
 	
 	public static void Game(FrogPanel panel){
+		panel.startGame();
 		panel.run();
 	}
 	
