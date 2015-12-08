@@ -1,9 +1,18 @@
 package frogger;
 
-public class FroggerModel {
+import static helpers.Artist.DrawQuadTex;
 
-	public FroggerModel() {
-		// TODO Auto-generated constructor stub
+public class FroggerModel {
+	public FrogPanel panel;
+	public FroggerController cntrl;
+	public FroggerView view;
+
+	public FroggerModel(FroggerView view) {
+		this.view = view;
+		panel = new FrogPanel(view);
+		
 	}
+	
+	
 
 }

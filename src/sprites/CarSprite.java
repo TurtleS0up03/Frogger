@@ -11,13 +11,14 @@ public class CarSprite extends Sprite {
 	private static final int STEP_OFFSET = 2;
 
 	private FrogPanel fp;
+	private FroggerView fv;
 	private FrogSprite frog;
 
-	public CarSprite(int w, int h, ImagesLoader imsLd, FrogPanel fp,
+	public CarSprite(int w, int h, ImagesLoader imsLd, FroggerView froggerView,
 			FrogSprite frg) {
 		super(w, h / 2, w, h, imsLd, "car");
 		// the ball is positioned in the middle at the panel's rhs
-		this.fp = fp;
+		this.fv = froggerView;
 		frog = frg;
 		initPosition();
 	} // end of CarSprite()

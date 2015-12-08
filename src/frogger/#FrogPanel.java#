@@ -1,7 +1,6 @@
 package frogger;
 
 import static helpers.Artist.BeginSession;
-import static helpers.Artist.DrawQuadTex;
 import static helpers.Artist.QuickLoad;
 
 import java.awt.Color;
@@ -31,9 +30,6 @@ import com.sun.j3d.utils.timer.J3DTimer;
 
 public class FrogPanel extends JPanel implements Runnable, ImagesPlayerWatcher {
 	
-	private static final int PWIDTH = 500; // size of panel
-	private static final int PHEIGHT = 360;
-
 
 	private static final int NO_DELAYS_PER_YIELD = 16;
 	/*
@@ -44,9 +40,13 @@ public class FrogPanel extends JPanel implements Runnable, ImagesPlayerWatcher {
 	// no. of frames that can be skipped in any one animation loop
 	// i.e the games state is updated but not rendered
 
-	private static final String[] exploNames = { "explo1", "explo2", "explo3" };
+	// image, bricks map, clips loader information files
+	private static final String IMS_INFO = "imsInfo.txt";
+
+	private final static String MIDIS_FILE = "midisInfo.txt";
 	// names of the explosion clips
-	
+	private static final String[] exploNames = { "explo1", "explo2", "explo3" };
+
 	private static final int MAX_HITS = 20;
 	// number of times frog can be hit by a car before the game is over
 
@@ -87,12 +87,12 @@ public class FrogPanel extends JPanel implements Runnable, ImagesPlayerWatcher {
 	private boolean showExplosion = false;
 	private int explWidth, explHeight; // image dimensions
 	private int xExpl, yExpl; // coords where image is drawn
-	private static final String IMS_INFO = "imsInfo.txt";
+
 	private int numHits = 0; // the number of times 'frog' has been hit
 	
 	
 
-	public FrogPanel(FroggerView view) {
+	public FrogPanel() {
 			
 			BeginSession();
 
@@ -113,56 +113,167 @@ public class FrogPanel extends JPanel implements Runnable, ImagesPlayerWatcher {
 					{ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
 					{ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
 					{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, };
-			
-			
-			FroggerController cntrl = new FroggerController(this);
-			
-			cntrl.makeGrid(map);
-			
-			// creates the map grid
-			
-			//this.period = period;
 
-			setDoubleBuffered(false);
-			setBackground(Color.white);
-			setPreferredSize(new Dimension(PWIDTH, PHEIGHT));
+			TileGrid grid = new TileGrid(map);
+			grid.SetTile(3, 4, grid.GetTile(2, 4).getType());
 
-			setFocusable(true);
-			requestFocus(); // the JPanel now has focus, so receives key events
+			// Small Log
+			Enemy e1 = new Enemy(QuickLoad("dirt"), grid.GetTile(0, 5), 64, 64, 20);// 5
+			// is
+			// the
+			// speed
+			Enemy e2 = new Enemy(QuickLoad("dirt"), grid.GetTile(1, 5), 64, 64, 20);// 5
+			// is
+			// the
+			// speed
+			Enemy e3 = new Enemy(QuickLoad("dirt"), grid.GetTile(2, 5), 64, 64, 20);// 5
+			// is
+			// the
+			// speed
 
-			addKeyListener(new KeyAdapter() {
-				public void keyPressed(KeyEvent e) {
-					processKey(e);
-				}
-			});
+			// Long Log
+			Enemy e5 = new Enemy(QuickLoad("dirt"), grid.GetTile(0, 3), 64, 64, 30);// 5
+			// is
+			// the
+			// speed
+			Enemy e6 = new Enemy(QuickLoad("dirt"), grid.GetTile(1, 3), 64, 64, 30);// 5
+			// is
+			// the
+			// speed
+			Enemy e7 = new Enemy(QuickLoad("dirt"), grid.GetTile(2, 3), 64, 64, 30);// 5
+			// is
+			// the
+			// speed
+			Enemy e8 = new Enemy(QuickLoad("dirt"), grid.GetTile(3, 3), 64, 64, 30);// 5
+			// is
+			// the
+			// speed
+			Enemy e9 = new Enemy(QuickLoad("dirt"), grid.GetTile(4, 3), 64, 64, 30);// 5
+			// is
+			// the
+			// speed
 
-			// initialise the loaders
-			ImagesLoader imsLoader = new ImagesLoader(IMS_INFO);
-			
+			// Turtles
+			Enemy e4 = new Enemy(QuickLoad("turtle"), grid.GetTile(0, 6), 64, 64,
+					15);// 5
+			// is
+			// the
+			// speed
+			Enemy e00 = new Enemy(QuickLoad("turtle"), grid.GetTile(0, 4), 64, 64,
+					35);// 5
+			// is
+			// the
+			// speed
+			Enemy e01 = new Enemy(QuickLoad("turtle"), grid.GetTile(0, 2), 64, 64,
+					45);// 5
+			// is
+			// the
+			// speed
 
-			frog = new FrogSprite(PWIDTH, PHEIGHT, imsLoader,
-					(int) (period / 1000000L)); // in ms
+			// Small Log Waves
+			Wave wave1 = new Wave(15, e1);// 10 is how milliseconds till another
+			// enemy spawns
+			Wave wave2 = new Wave(15, e2);// 10 is how milliseconds till another
+			// enemy spawns
+			Wave wave3 = new Wave(15, e3);// 10 is how milliseconds till another
+			// enemy spawns
 
-			car = new CarSprite(PWIDTH, PHEIGHT, imsLoader, view, frog);
+			// Turtle Waves
+			Wave wave4 = new Wave(13, e4);// 10 is how milliseconds till another
+			// enemy spawns
+			Wave wave00 = new Wave(13, e00);// 10 is how milliseconds till another
+			// enemy spawns
+			Wave wave01 = new Wave(5, e01);// 10 is how milliseconds till another
+			// enemy spawns
 
-			// prepare the explosion animation
-			explosionPlayer = new ImagesPlayer("explosion",
-					(int) (period / 1000000L), 0.5, false, imsLoader);
-			BufferedImage explosionIm = imsLoader.getImage("explosion");
-			explWidth = explosionIm.getWidth();
-			explHeight = explosionIm.getHeight();
-			explosionPlayer.setWatcher(this); // report animation's end back here
+			// Long Log wave
+			Wave wave5 = new Wave(15, e5);// 10 is how milliseconds till another
+			// enemy spawns
+			Wave wave6 = new Wave(15, e6);// 10 is how milliseconds till another
+			// enemy spawns
+			Wave wave7 = new Wave(15, e7);// 10 is how milliseconds till another
+			// enemy spawns
+			Wave wave8 = new Wave(15, e8);// 10 is how milliseconds till another
+			// enemy spawns
+			Wave wave9 = new Wave(15, e9);// 10 is how milliseconds till another
+			// enemy spawns
 
-			// prepare title/help screen
-			helpIm = imsLoader.getImage("title");
-			showHelp = true; // show at start-up
-			isPaused = true;
+			CoinGenerator c = new CoinGenerator(QuickLoad("coin"), grid.GetTile(0,
+					0), 64, 64);
+			cgWave wavec = new cgWave(5000, c);
+			//frogmusic = new Audio();
+			while (!Display.isCloseRequested()) {// While were not hitting the x
+				// button
+				Clock.update();
+				grid.Draw();// Draw the grid
+				wave1.Update();// Update the waves
+				wave2.Update();// Update the waves
+				wave3.Update();// Update the waves
+				wave4.Update();// Update the waves
+				wave5.Update();// Update the waves
+				wave6.Update();// Update the waves
+				wave7.Update();// Update the waves
+				wave8.Update();// Update the waves
+				wave9.Update();// Update the waves
+				wave00.Update();// Update the waves
+				wave01.Update();// Update the waves
+				wavec.Update();
 
-			// set up message font
-			msgsFont = new Font("SansSerif", Font.BOLD, 24);
-			metrics = this.getFontMetrics(msgsFont);
+				Display.update();
+				Display.sync(80);
+			}
+			//frogmusic.stop();
+			Display.destroy();
 		
-	}
+
+		setDoubleBuffered(false);
+		setBackground(Color.white);
+		setPreferredSize(new Dimension(PWIDTH, PHEIGHT));
+
+		setFocusable(true);
+		requestFocus(); // the JPanel now has focus, so receives key events
+
+		addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				processKey(e);
+			}
+		});
+
+		// initialise the loaders
+		ImagesLoader imsLoader = new ImagesLoader(IMS_INFO);
+		// clipsLoader = new ClipsLoader(SNDS_FILE);
+
+		// initialise the game entities
+		// bricksMan = new BricksManager(PWIDTH, PHEIGHT, BRICKS_INFO,
+		// imsLoader);
+		// int brickMoveSize = bricksMan.getMoveSize();
+
+		// ribsMan = new RibbonsManager(PWIDTH, PHEIGHT, brickMoveSize,
+		// imsLoader);
+
+		frog = new FrogSprite(PWIDTH, PHEIGHT, imsLoader,
+				(int) (period / 1000000L)); // in ms
+
+		car = new CarSprite(PWIDTH, PHEIGHT, imsLoader, this, frog);
+
+		// prepare the explosion animation
+		explosionPlayer = new ImagesPlayer("explosion",
+				(int) (period / 1000000L), 0.5, false, imsLoader);
+		BufferedImage explosionIm = imsLoader.getImage("explosion");
+		explWidth = explosionIm.getWidth();
+		explHeight = explosionIm.getHeight();
+		explosionPlayer.setWatcher(this); // report animation's end back here
+
+		// prepare title/help screen
+		helpIm = imsLoader.getImage("title");
+		showHelp = true; // show at start-up
+		isPaused = true;
+
+		// set up message font
+		msgsFont = new Font("SansSerif", Font.BOLD, 24);
+		metrics = this.getFontMetrics(msgsFont);
+	} // end of JackPanel()
+
 	private void processKey(KeyEvent e)
 	// handles termination, help, and game-play keys
 	{
@@ -203,10 +314,6 @@ public class FrogPanel extends JPanel implements Runnable, ImagesPlayerWatcher {
 			}
 		}
 	} // end of processKey()
-	
-	
-	
-
 
 	public void showExplosion(int x, int y)
 	// called by car sprite when it hits frog at (x,y)

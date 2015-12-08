@@ -3,8 +3,13 @@ package frogger;
 import static helpers.Artist.BeginSession;
 import static helpers.Artist.QuickLoad;
 import helpers.Clock;
+import helpers.ImagesLoader;
+import helpers.ImagesPlayer;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,16 +18,26 @@ import javax.swing.JPanel;
 
 import org.lwjgl.opengl.Display;
 
+import sprites.CarSprite;
+import sprites.FrogSprite;
+
 public class FroggerView extends JFrame{
+	private FroggerController cntrl;
+	private FroggerModel model;
+	private FrogPanel panel;
+	
+	private static final int PWIDTH = 500; // size of panel
+	private static final int PHEIGHT = 360;
+	private static final String IMS_INFO = "imsInfo.txt";
+	private long period; 
 
+	
 	public FroggerView() {
-
 		
 	}
 	
-	public static void Game(){
-		FrogPanel panel = new FrogPanel();
-		//panel.update(model);
+	public static void Game(FrogPanel panel){
+		panel.run();
 	}
 	
 	public static void Boot() {
@@ -63,4 +78,6 @@ public class FroggerView extends JFrame{
 													// instead of button
 
 	}
+	
+	
 }

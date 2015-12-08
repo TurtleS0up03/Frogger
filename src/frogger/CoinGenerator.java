@@ -20,7 +20,7 @@ public class CoinGenerator extends TimerTask {
 	private Texture texture;
 	private Tile tile;
 	// private CoinGenerator coin;
-	Tile c = new Tile(0, 0, 64, 64, TileType.Coin);
+	Tile c = new Tile(0, 0, 64, 64, tile.getType());
 	ArrayList<CoinGenerator> coins;
 	Random rnx = new Random();
 	Random rny = new Random();

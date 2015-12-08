@@ -18,13 +18,12 @@ public class Frogger
 	
 
 	public static void main(String[] args) {
-	
-		//FrogPanel fp =  new FrogPanel();
-
+		
 		FroggerView view = new FroggerView();
-		view.Boot();
-		FroggerModel model = new FroggerModel();
-		FroggerController controller = new FroggerController();
+		view.Boot(); 
+		FroggerModel model = new FroggerModel(view);
+		FroggerController controller = new FroggerController(model.panel);
+		
 	}
 
 }
